@@ -1,6 +1,6 @@
 package org.parasol.customerservice.support.ai;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -35,7 +35,7 @@ public class MessageProcessor {
     @ConfigProperty(name = "embedding.min-score")
     double embeddingMinScore;
 
-    ChatLanguageModel chatLanguageModel;
+    ChatModel chatLanguageModel;
 
     OpenAiEmbeddingModel embeddingModel;
 
@@ -57,7 +57,7 @@ public class MessageProcessor {
         return assistant.answer(query);
     }
 
-    private ChatLanguageModel initChatLanguageModel() {
+    private ChatModel initChatLanguageModel() {
         LOGGER.info("Initializing chat model");
         return OpenAiChatModel.builder()
                 .apiKey(langChain4jOpenAIChatConfig.apiKey())
@@ -111,7 +111,7 @@ public class MessageProcessor {
     private Assistant initAiService() {
         LOGGER.info("Initializing AiService");
         return AiServices.builder(Assistant.class)
-                .chatLanguageModel(chatLanguageModel)
+                .chatModel(chatLanguageModel)
                 .contentRetriever(contentRetriever)
                 .build();
     }
